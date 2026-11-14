@@ -1,6 +1,7 @@
 package proton_test
 
 import (
+	"encoding/json"
 	"os"
 	"testing"
 
@@ -27,6 +28,14 @@ func TestDecrypt(t *testing.T) {
 	dec, err := prvKR.Decrypt(enc, nil, crypto.GetUnixTime())
 	require.NoError(t, err)
 	require.NoError(t, pubKR.VerifyDetached(dec, sigs[0].Data, crypto.GetUnixTime()))
+}
+
+func TestMessageMetadata_DecodesConversationID(t *testing.T) {
+	var meta proton.MessageMetadata
+
+	require.NoError(t, json.Unmarshal([]byte(`{"ID":"messageID","ConversationID":"conversationID"}`), &meta))
+	require.Equal(t, "messageID", meta.ID)
+	require.Equal(t, "conversationID", meta.ConversationID)
 }
 
 func loadKeyRing(t *testing.T, file string, pass []byte) *crypto.KeyRing {

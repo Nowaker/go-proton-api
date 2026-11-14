@@ -12,10 +12,11 @@ import (
 )
 
 type MessageMetadata struct {
-	ID         string
-	AddressID  string
-	LabelIDs   []string
-	ExternalID string
+	ID             string
+	AddressID      string
+	LabelIDs       []string
+	ExternalID     string
+	ConversationID string
 
 	Subject  string
 	Sender   *mail.Address
